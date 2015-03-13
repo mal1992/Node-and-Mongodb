@@ -9,38 +9,38 @@ var app = express();
 app.set('port', process.env.PORT || 3000); 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.bodyParser()); // <-- add
+app.use(express.bodyParser()); 
 
-var mongoHost = 'localHost'; //A
+var mongoHost = 'localHost'; 
 var mongoPort = 27017; 
 var collectionDriver;
  
-var mongoClient = new MongoClient(new Server(mongoHost, mongoPort)); //B
-mongoClient.open(function(err, mongoClient) { //C
+var mongoClient = new MongoClient(new Server(mongoHost, mongoPort)); 
+mongoClient.open(function(err, mongoClient) { 
   if (!mongoClient) {
-      console.error("Error! Exiting... Must start MongoDB first");
-      process.exit(1); //D
+      console.error("Error! Exiting... Start MongoDB first");
+      process.exit(1); 
   }
-  var db = mongoClient.db("MyDatabase");  //E
-  collectionDriver = new CollectionDriver(db); //F
+  var db = mongoClient.db("MyDatabase");  
+  collectionDriver = new CollectionDriver(db); 
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
  
 app.get('/', function (req, res) {
-  res.send('<html><body><h1>Hello World</h1></body></html>');
+  res.send('<html><body><h1>Hi Malavika</h1></body></html>');
 });
  
-app.get('/:collection', function(req, res) { //A
-   var params = req.params; //B
+app.get('/:collection', function(req, res) { 
+   var params = req.params; 
    collectionDriver.findAll(req.params.collection, function(error, objs) { //C
-        if (error) { res.send(400, error); } //D
+        if (error) { res.send(400, error); } 
         else { 
-            if (req.accepts('html')) { //E
+            if (req.accepts('html')) { 
                 res.render('data',{objects: objs, collection: req.params.collection}); //F
               } else {
-            res.set('Content-Type','application/json'); //G
-                  res.send(200, objs); //H
+            res.set('Content-Type','application/json'); 
+                  res.send(200, objs);
               }
          }
     });
