@@ -89,9 +89,9 @@ app.delete('/:collection/:entity', function(req, res) { //A
     var entity = params.entity;
     var collection = params.collection;
     if (entity) {
-       collectionDriver.delete(collection, entity, function(error, objs) { //B
+       collectionDriver.delete(collection, entity, function(error, objs) { 
           if (error) { res.send(400, error); }
-          else { res.send(200, objs); } //C 200 b/c includes the original doc
+          else { res.send(200, objs); } 
        });
    } else {
        var error = { "message" : "Cannot DELETE a whole collection" }
